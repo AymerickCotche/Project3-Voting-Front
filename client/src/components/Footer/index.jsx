@@ -3,7 +3,7 @@ import styles from './Footer.module.scss';
 const Footer = () => {
   return (
     <footer className={styles.footer}>
-      <p>© Animalx by Aymerick Cotché 2022</p>
+      <p>© 2022 Voting Dapp by Aymerick Cotché</p>
     </footer>
   )
 }
