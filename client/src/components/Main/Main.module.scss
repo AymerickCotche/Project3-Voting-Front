@@ -1,0 +1,26 @@
+@use '../../styles/vars';
+
+.main {
+  color: white;
+  flex: 1;
+  padding: vars.$gutter;
+  &__title {
+    font-size: 1.8em;
+    margin-bottom: vars.$gutter;
+  }
+  &__content {
+    display: flex;
+    &__left {
+      flex: 1
+    }
+    &__image {
+      margin: auto;
+      border: 2px solid black;
+      max-width: 325px;
+      max-height: 650px;
+    }
+    &__text {
+      flex: 2;
+    }
+  }
+}

@@ -1,0 +1,4 @@
+/client/.env
+/truffle/.env
+/client/node_modules/
+/truffle/node_modules/

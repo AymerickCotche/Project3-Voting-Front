@@ -1,0 +1,45 @@
+@use '../../styles/vars';
+
+.header {
+  color: white;
+  padding: 3em 4em;
+  background-color: rgba(0, 0, 0, 0.418);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  &__infos {
+    align-items: center;
+    display: flex;
+    &__title {
+      font-size: 3em;
+      margin-right: 2em;
+    }
+    &__title:hover {
+      color:rgb(172, 103, 0);
+    }
+    &__navlist {
+      display: flex;
+    }
+    &__nav__item {
+      font-size: 1.2em;
+      margin-right: 1em;
+    }
+    &__nav__item:hover {
+      color:rgb(172, 103, 0);
+    }
+  }
+  &__connect {
+    height: 2em;
+  }
+  &__btn__connect{
+    background-color: rgb(172, 103, 0);
+    color: white;
+    border: none;
+    border-radius: 2em;
+    height: 3em;
+    font-size: 1.1em;
+    padding-right: 1em;
+    padding-left: 1em;
+  }
+}
