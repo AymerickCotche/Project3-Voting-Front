@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { connectMetamask, checkMetamaskInstall, checkMetamaskInit, saveChainId, saveAccountAddress, saveWeb3, saveInstance } from '../../app/actions/web3';
+import { setIsAdmin } from '../../app/actions/voting';
 import Link from 'next/link';
 import Web3 from 'web3';
 
@@ -11,15 +12,21 @@ const Header = () => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(checkMetamaskInstall());
-  }, [])
-
   const mmInstalled = useSelector((state) => state.web3.metamask.isInstalled);
   const mmIninitialized = useSelector((state) => state.web3.metamask.isInitialized);
   const errorMessage = useSelector((state) => state.web3.metamask.errorMessage);
   const userAddress = useSelector((state) => state.web3.address);
   const mmConnected = useSelector((state) => state.web3.metamask.isConnected);
+
+  const accountType = useSelector((state) => state.voting.accountType);
+
+  useEffect(() => {
+    dispatch(checkMetamaskInstall());
+    if(userAddress === process.env.ownerAddress.toLocaleLowerCase()) {
+      dispatch(setIsAdmin());
+    }
+  }, [])
+
   
   const handleClick = async () => {
     dispatch(checkMetamaskInit());
@@ -71,7 +78,11 @@ const Header = () => {
           </Link>
         }
         {mmInstalled && mmConnected &&
-          <p>{`Address : ${userAddress.slice(0,6)}...${userAddress.slice(-5)}`}</p>
+          <div>
+            <p>{`Address : ${userAddress.slice(0,6)}...${userAddress.slice(-5)}`}</p>
+            <p>{`Account type : ${accountType}`}</p>
+          </div>
+          
         }
         {!mmIninitialized && <p>{errorMessage}</p>}
       </div>

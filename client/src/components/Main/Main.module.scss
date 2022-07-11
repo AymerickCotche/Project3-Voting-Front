@@ -1,26 +1,19 @@
 @use '../../styles/vars';
 
 .main {
-  color: white;
   flex: 1;
+  display: flex;
+  color: white;
   padding: vars.$gutter;
-  &__title {
-    font-size: 1.8em;
-    margin-bottom: vars.$gutter;
-  }
-  &__content {
+  height: 100%;
+
+  &__voteArea {
+    flex: 2;
     display: flex;
-    &__left {
-      flex: 1
-    }
-    &__image {
-      margin: auto;
-      border: 2px solid black;
-      max-width: 325px;
-      max-height: 650px;
-    }
-    &__text {
-      flex: 2;
-    }
+    flex-direction: column;
+  }
+
+  &__eventsArea {
+    flex: 1;
   }
 }
