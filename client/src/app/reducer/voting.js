@@ -1,7 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit';
 
 import {
-  setIsAdmin
+  setIsAdmin,
+  setDisplayId
 } from '../actions/voting';
 
 const initialState = {
@@ -10,30 +11,36 @@ const initialState = {
   accountType: 'Not registered',
   workflowStatus: [
     {
+      id: 0,
       name: 'Voters registration',
-      isOpen: false
+      status: 'Open'
     },
     {
+      id: 1,
       name: 'Proposals registration',
-      isOpen: false
+      status: 'Close'
     },
     {
+      id: 2,
       name: 'Votes registration',
-      isOpen: false
+      status: 'Close'
     },
     {
+      id: 3,
       name: 'Vote result',
-      isOpen: false
+      status: 'Close'
     }
-  ]
+  ],
+  currentDisplay : 0
 };
 
 export const votingReducer = createReducer(initialState, (builder) => {
   builder
   .addCase(setIsAdmin, (state) => {
-    console.log('la3');
     state.isAdmin = true;
     state.accountType = 'administrator';
+  }).addCase(setDisplayId, (state, action) => {
+    state.currentDisplay = action.payload;
   });
 });
 

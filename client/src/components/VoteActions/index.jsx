@@ -1,9 +1,31 @@
+import { useDispatch, useSelector } from 'react-redux';
+
 import styles from './VoteActions.module.scss';
+import VotersRegistration from './VotersRegistration';
+import ProposalsRegistration from './ProposalsRegistration';
+import VotesRegistration from './VotesRegistration';
+import VoteResult from './VoteResult';
 
 const VoteActions = () => {
+  const currentDisplay = useSelector((state) => state.voting.currentDisplay);
   return (
     <div className={styles.voteActions}>
-      <p>Vote Actions component</p>
+      {
+        currentDisplay === 0 &&
+        <VotersRegistration/>
+      }
+      {
+        currentDisplay === 1 &&
+        <ProposalsRegistration/>
+      }
+      {
+        currentDisplay === 2 &&
+        <VotesRegistration/>
+      }
+      {
+        currentDisplay === 3 &&
+        <VoteResult/>
+      }
     </div>
   )
 }

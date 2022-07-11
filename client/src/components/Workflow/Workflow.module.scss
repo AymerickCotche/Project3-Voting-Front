@@ -1,6 +1,24 @@
 @use '../../styles/vars';
 
 .workflow {
-  background-color: blue;
-  height: 7em;
+
+  &__list {
+    display: flex;
+    text-align: center;
+    &__item {
+      width: 25%;
+      padding: 1em 0;
+      background-color: rgb(184, 56, 56);
+    }
+    &__item:hover {
+      cursor: pointer;
+    }
+    &__item__active {
+      background-color: rgb(62, 145, 62);
+    }
+    &__item__border:not(:first-child) {
+      border-left: solid silver 1px;
+    }
+  }
+
 }
