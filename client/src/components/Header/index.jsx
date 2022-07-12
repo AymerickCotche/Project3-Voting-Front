@@ -1,7 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { connectMetamask, checkMetamaskInstall, checkMetamaskInit, saveChainId, saveAccountAddress, saveWeb3, saveInstance } from '../../app/actions/web3';
-import { setIsAdmin } from '../../app/actions/voting';
+import { getRegisteredVoterEvents, setIsUnRegistered, testGetVoters } from '../../app/actions/voting';
+import { setIsAdmin, setIsVoter } from '../../app/actions/voting';
 import Link from 'next/link';
 import Web3 from 'web3';
 
@@ -19,24 +20,59 @@ const Header = () => {
   const mmConnected = useSelector((state) => state.web3.metamask.isConnected);
 
   const accountType = useSelector((state) => state.voting.accountType);
+  const isAdmin = useSelector((state) => state.voting.isAdmin);
+  const isVoter = useSelector((state) => state.voting.isVoter);
+  const registeredVoterEvents = useSelector((state) => state.voting.registeredVoterEvents);
+
 
   useEffect(() => {
     dispatch(checkMetamaskInstall());
-    if(userAddress === process.env.ownerAddress.toLocaleLowerCase()) {
-      dispatch(setIsAdmin());
-    }
   }, [])
 
+  useEffect(() => {
+    if (mmConnected) {
+      window.ethereum.on("accountsChanged", () => {
+        dispatch(saveAccountAddress());
+      });
+      window.ethereum.on("chainChanged", () => {
+        dispatch(saveChainId(window.ethereum.chainId));
+        dispatch(saveAccountAddress());
+      });
+    }
+  }, [mmConnected]);
+
+  useEffect(() => {
+    if(userAddress === process.env.ownerAddress.toLocaleLowerCase()) {
+      
+      dispatch(setIsAdmin(true));
+    } else {
+      if (isAdmin) dispatch(setIsAdmin(false));
+      const findVoter = registeredVoterEvents.find((registeredVoterEvent) => (
+        registeredVoterEvent.returnValues.voterAddress.toLocaleLowerCase() === userAddress
+      ))
+      console.log(findVoter);
+      if (findVoter) {
+
+        dispatch(setIsVoter(true))
+      } else {
+        if (isAdmin) dispatch(setIsAdmin(false));
+        if (isVoter) dispatch(setIsVoter(false));
+        dispatch(setIsUnRegistered());
+      } ;
+    }
+  }, [userAddress, registeredVoterEvents])
+
   
-  const handleClick = async () => {
+  const handleClick = () => {
     dispatch(checkMetamaskInit());
-    await dispatch(connectMetamask());
+    dispatch(connectMetamask());
     dispatch(saveChainId(window.ethereum.chainId));
-    await dispatch(saveAccountAddress());
+    dispatch(saveAccountAddress());
     const web3 = new Web3(window.ethereum);
     const instance = new web3.eth.Contract(Voting.abi, Voting.networks[3].address);
-    await dispatch(saveWeb3(web3));
-    await dispatch(saveInstance(instance));
+    dispatch(saveWeb3(web3));
+    dispatch(saveInstance(instance));
+    dispatch(testGetVoters());
   };
 
   return (

@@ -4,8 +4,9 @@
   flex: 1;
   display: flex;
   color: white;
-  padding: vars.$gutter;
-  height: 100%;
+  margin: 2*vars.$gutter 2*vars.$gutter;
+  height: 95%;
+  border: 1px solid silver;
 
   &__voteArea {
     flex: 2;
