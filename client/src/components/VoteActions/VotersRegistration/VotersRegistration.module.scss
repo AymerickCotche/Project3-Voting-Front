@@ -2,6 +2,15 @@
 
 .votersRegistration {
 
- background-color: none;
+ &__addForm {
+  margin-bottom: vars.$gutter;
+ }
+
+ &__votersList {
+  margin-bottom: vars.$gutter;
+  color: silver;
+  padding: 0 2*vars.$gutter;
+  display: inline-block;
+ }
 
 }

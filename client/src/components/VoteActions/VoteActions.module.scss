@@ -2,4 +2,29 @@
 
 .voteActions {
   flex: 1;
+  padding: vars.$gutter 2*vars.$gutter;
+  h2  {
+    font-size: 1.2em;
+    margin-bottom: vars.$gutter;
+  }
+  h3  {
+    font-size: 1.1em;
+    margin-bottom: vars.$gutter;
+  }
+  button {
+    border: none;
+    background-color: #222;
+    padding: 0.3*vars.$gutter 0.6*vars.$gutter;
+    color: white;
+    margin-bottom: vars.$gutter;
+
+  }
+  button:hover {
+    background-color: rgb(172, 103, 0);
+  }
+  input {
+    border: none;
+    padding: 0.3*vars.$gutter 0.6*vars.$gutter;
+    margin-right: vars.$gutter;
+  }
 }

@@ -11,19 +11,19 @@ const VoteActions = () => {
   return (
     <div className={styles.voteActions}>
       {
-        currentDisplay === 0 &&
+        currentDisplay === "0" &&
         <VotersRegistration/>
       }
       {
-        currentDisplay === 1 &&
+        currentDisplay === "1" &&
         <ProposalsRegistration/>
       }
       {
-        currentDisplay === 2 &&
+        currentDisplay === "3" &&
         <VotesRegistration/>
       }
       {
-        currentDisplay === 3 &&
+        currentDisplay === "5" &&
         <VoteResult/>
       }
     </div>

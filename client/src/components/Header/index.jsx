@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { connectMetamask, checkMetamaskInstall, checkMetamaskInit, saveChainId, saveAccountAddress, saveWeb3, saveInstance } from '../../app/actions/web3';
-import { getRegisteredVoterEvents, setIsUnRegistered, testGetVoters } from '../../app/actions/voting';
+import { getRegisteredVoterEvents, setIsUnRegistered, getRegisteredProposalEvents, getCurrentVotePhase } from '../../app/actions/voting';
 import { setIsAdmin, setIsVoter } from '../../app/actions/voting';
 import Link from 'next/link';
 import Web3 from 'web3';
@@ -45,6 +45,7 @@ const Header = () => {
     if(userAddress === process.env.ownerAddress.toLocaleLowerCase()) {
       
       dispatch(setIsAdmin(true));
+      dispatch(setIsVoter(false));
     } else {
       if (isAdmin) dispatch(setIsAdmin(false));
       const findVoter = registeredVoterEvents.find((registeredVoterEvent) => (
@@ -72,7 +73,9 @@ const Header = () => {
     const instance = new web3.eth.Contract(Voting.abi, Voting.networks[3].address);
     dispatch(saveWeb3(web3));
     dispatch(saveInstance(instance));
-    dispatch(testGetVoters());
+    dispatch(getRegisteredVoterEvents());
+    dispatch(getRegisteredProposalEvents());
+    dispatch(getCurrentVotePhase());
   };
 
   return (
@@ -116,7 +119,9 @@ const Header = () => {
         {mmInstalled && mmConnected &&
           <div>
             <p>{`Address : ${userAddress.slice(0,6)}...${userAddress.slice(-5)}`}</p>
-            <p>{`Account type : ${accountType}`}</p>
+            <p>{isAdmin ? 'Account type : Administrator': ''}</p>
+            <p>{isVoter ? 'Account type : Voter': ''}</p>
+            <p>{!isAdmin && !isVoter ? 'Account type : Not Registered': ''}</p>
           </div>
           
         }

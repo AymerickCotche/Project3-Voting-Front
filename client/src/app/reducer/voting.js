@@ -8,7 +8,13 @@ import {
   setAddVoterInput,
   getRegisteredVoterEvents,
   addRegisteredVoterEvents,
-  testGetVoters
+  setAddProposalInput,
+  getRegisteredProposalEvents,
+  addRegisteredProposalEvents,
+  startProposalRegistration,
+  endProposalRegistration,
+  getCurrentVotePhase,
+  getProposal
 } from '../actions/voting';
 
 const initialState = {
@@ -17,29 +23,29 @@ const initialState = {
   accountType: 'Not registered',
   workflowStatus: [
     {
-      id: 0,
+      id: "0",
       name: 'Voters registration',
-      status: 'Open'
     },
     {
-      id: 1,
+      id: "1",
       name: 'Proposals registration',
-      status: 'Close'
     },
     {
-      id: 2,
+      id: "3",
       name: 'Votes registration',
-      status: 'Close'
     },
     {
-      id: 3,
+      id: "5",
       name: 'Vote result',
-      status: 'Close'
     }
   ],
-  currentDisplay : 0,
+  currentVotePhase: "0",
+  currentDisplay : "0",
   addVoterInput: '',
   registeredVoterEvents: [],
+  addProposalInput: '',
+  registeredProposalEvents: [],
+  proposals: [],
 };
 
 export const votingReducer = createReducer(initialState, (builder) => {
@@ -61,20 +67,52 @@ export const votingReducer = createReducer(initialState, (builder) => {
   .addCase(setAddVoterInput, (state, action) => {
     state.addVoterInput = action.payload;
   })
-  .addCase(getRegisteredVoterEvents, (state, action) => {
-    state.registeredVoterEvents = action.payload;
-  })
   .addCase(addRegisteredVoterEvents, (state, action) => {
     state.registeredVoterEvents = [...state.registeredVoterEvents, action.payload];
   })
-  .addCase(testGetVoters.pending, (state) => {
+  .addCase(getRegisteredVoterEvents.pending, (state) => {
     console.log('pending');
   })
-  .addCase(testGetVoters.fulfilled, (state, action) => {
+  .addCase(getRegisteredVoterEvents.fulfilled, (state, action) => {
     state.registeredVoterEvents = action.payload;
   })
-  .addCase(testGetVoters.rejected, (state) => {
+  .addCase(getRegisteredVoterEvents.rejected, (state) => {
     console.log('error');
+  })
+  .addCase(setAddProposalInput, (state, action) => {
+    state.addProposalInput = action.payload;
+  })
+  .addCase(getRegisteredProposalEvents.pending, (state) => {
+    console.log('pending');
+  })
+  .addCase(getRegisteredProposalEvents.fulfilled, (state, action) => {
+    state.registeredProposalEvents = action.payload;
+  })
+  .addCase(getRegisteredProposalEvents.rejected, (state) => {
+    console.log('error');
+  })
+  .addCase(addRegisteredProposalEvents, (state, action) => {
+    state.registeredProposalEvents = [...state.registeredProposalEvents, action.payload];
+  })
+  .addCase(getCurrentVotePhase.rejected, (state) => {
+    console.log('error');
+  })
+  .addCase(getCurrentVotePhase.fulfilled, (state, action) => {
+    console.log('value : ',action.payload);
+    state.currentVotePhase = action.payload;
+  })
+  .addCase(getCurrentVotePhase.pending, (state) => {
+    console.log('pending');
+  })
+  .addCase(startProposalRegistration, (state) => {
+    state.currentVotePhase = "1";
+  })
+  .addCase(endProposalRegistration, (state) => {
+    state.currentVotePhase = "2";
+  })
+  .addCase(getProposal, (state, action) => {
+    state.proposals = [];
+    state.proposals = action.payload;
   });
 });
 

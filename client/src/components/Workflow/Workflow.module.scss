@@ -13,8 +13,13 @@
     &__item:hover {
       cursor: pointer;
     }
-    &__item__active {
+    &__item__open {
       background-color: rgb(62, 145, 62);
+    }
+    &__item__active {
+      border-bottom: 4px solid rgba(0, 0, 0, 0.603);
+      color: rgb(255, 238, 0);
+      font-size: 1.1em;
     }
     &__item__border:not(:first-child) {
       border-left: solid silver 1px;

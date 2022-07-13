@@ -21,7 +21,6 @@ const VotersRegistration = () => {
   const handleClickSetVoter = async () => {
     await instance.methods.addVoter(voterInputValue).send({from: address})
     .on('receipt', (receipt) => {
-      console.log(receipt);
       dispatch(addRegisteredVoterEvents(receipt.events.VoterRegistered));
     });
     dispatch(setAddVoterInput(''));
@@ -35,10 +34,11 @@ const VotersRegistration = () => {
 
   return (
     <div className={styles.votersRegistration}>
+      <h2>Voters Registration</h2>
       {isAdmin &&
       <div>
         <h3>Add addresses to the list of voters</h3>
-        <div>
+        <div className={styles.votersRegistration__addForm}>
           <input
             type="text"
             placeholder="add voter's address"
@@ -49,11 +49,10 @@ const VotersRegistration = () => {
         </div>
         <div>
           <h3>Voters list :</h3>
-          <ol>
+          <ol className={styles.votersRegistration__votersList}>
             {ejsVotersList}
           </ol>
         </div>
-        <button>End voters registration</button>
       </div>
         
 

@@ -8,17 +8,35 @@ export const setIsAdmin = createAction('voting/setIsAdmin');
 export const setIsVoter = createAction('voting/setIsVoter');
 export const setIsUnRegistered = createAction('voting/setIsUnRegistered');
 
-
-
 export const setDisplayId = createAction('voting/setDisplayId');
+export const getCurrentVotePhase = createAsyncThunk('voting/getCurrentVotePhase', async () => {
+  const web3 = new Web3(window.ethereum);
+  const instance = new web3.eth.Contract(Voting.abi, Voting.networks[3].address);
+  const currentVotePhase = await instance.methods.workflowStatus().call();
+  return currentVotePhase;
+});
+export const toggleWorkflowPhases = createAction('voting/toggleWorkflowPhases');
 
 export const setAddVoterInput = createAction('voting/setAddVoterInput');
-export const getRegisteredVoterEvents = createAction('voting/getRegisteredVoterEvents');
 export const addRegisteredVoterEvents = createAction('voting/addRegisteredVoterEvents');
 
-export const testGetVoters = createAsyncThunk('voting/testGetVoters', async () => {
+export const getRegisteredVoterEvents = createAsyncThunk('voting/getRegisteredVoterEvents', async () => {
   const web3 = new Web3(window.ethereum);
   const instance = new web3.eth.Contract(Voting.abi, Voting.networks[3].address);
   const registeredVotersEvents = await instance.getPastEvents('VoterRegistered', { fromBlock: 12549297, toBlock: 'latest'});
   return registeredVotersEvents;
 });
+
+export const startProposalRegistration = createAction('voting/startProposalRegistration');
+export const endProposalRegistration = createAction('voting/endProposalRegistration');
+
+export const setAddProposalInput = createAction('voting/setAddProposalInput');
+export const addRegisteredProposalEvents = createAction('voting/addRegisteredProposalEvents');
+export const getRegisteredProposalEvents = createAsyncThunk('voting/getRegisteredProposalEvents', async () => {
+  const web3 = new Web3(window.ethereum);
+  const instance = new web3.eth.Contract(Voting.abi, Voting.networks[3].address);
+  const registeredProposalEvents = await instance.getPastEvents('ProposalRegistered', { fromBlock: 12549297, toBlock: 'latest'});
+  return registeredProposalEvents;
+});
+
+export const getProposal = createAction('voting/getProposal');
