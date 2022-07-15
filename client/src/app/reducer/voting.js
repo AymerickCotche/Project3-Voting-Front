@@ -9,6 +9,7 @@ import {
   getRegisteredVoterEvents,
   addRegisteredVoterEvents,
   setAddProposalInput,
+  getAllEvents,
   getRegisteredProposalEvents,
   addRegisteredProposalEvents,
   startProposalRegistration,
@@ -16,7 +17,8 @@ import {
   getCurrentVotePhase,
   getProposal,
   startVoteRegistration,
-  endVoteRegistration
+  endVoteRegistration,
+  formateEvents,
 } from '../actions/voting';
 
 const initialState = {
@@ -43,6 +45,9 @@ const initialState = {
   ],
   currentVotePhase: "",
   currentDisplay : "0",
+  allEvents: [],
+  displayedEvents: [],
+  eventLoading: false,
   addVoterInput: '',
   registeredVoterEvents: [],
   addProposalInput: '',
@@ -71,6 +76,16 @@ export const votingReducer = createReducer(initialState, (builder) => {
   })
   .addCase(addRegisteredVoterEvents, (state, action) => {
     state.registeredVoterEvents = [...state.registeredVoterEvents, action.payload];
+  })
+  .addCase(getAllEvents.pending, (state) => {
+    console.log('pending');
+  })
+  .addCase(getAllEvents.fulfilled, (state, action) => {
+    state.allEvents = [];
+    state.allEvents = action.payload;
+  })
+  .addCase(getAllEvents.rejected, (state) => {
+    console.log('error');
   })
   .addCase(getRegisteredVoterEvents.pending, (state) => {
     console.log('pending');
@@ -121,6 +136,9 @@ export const votingReducer = createReducer(initialState, (builder) => {
   .addCase(getProposal, (state, action) => {
     state.proposals = [];
     state.proposals = action.payload;
+  })
+  .addCase(formateEvents, (state, action) => {
+    state.displayedEvents = [...state.displayedEvents, action.payload];
   });
 });
 

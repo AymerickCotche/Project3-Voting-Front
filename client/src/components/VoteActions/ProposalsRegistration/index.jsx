@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProposal, setAddProposalInput, endProposalRegistration } from '../../../app/actions/voting';
+import { getProposal, setAddProposalInput, startProposalsRegistration, endProposalRegistration } from '../../../app/actions/voting';
 import styles from './ProposalsRegistration.module.scss';
 
 const ProposalsRegistration = () => {
@@ -46,7 +46,7 @@ const ProposalsRegistration = () => {
 
   const handleClickStartProposalRegistration = async () => {
     await instance.methods.startProposalsRegistering().send({from: address});
-    dispatch(startProposalsRegistering());
+    dispatch(startProposalsRegistration());
   }
 
   const handleClickEndProposalRegistration = async () => {

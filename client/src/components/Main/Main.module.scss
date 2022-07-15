@@ -4,17 +4,18 @@
   flex: 1;
   display: flex;
   color: white;
-  margin: 2*vars.$gutter 2*vars.$gutter;
-  height: 95%;
-  border: 1px solid silver;
-
+  height: 100%;
   &__voteArea {
-    flex: 2;
+    flex: 1;
     display: flex;
     flex-direction: column;
+    height: 100%;
+
   }
 
   &__eventsArea {
     flex: 1;
+    height: 100%;
+
   }
 }

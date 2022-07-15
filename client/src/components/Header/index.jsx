@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { connectMetamask, checkMetamaskInstall, checkMetamaskInit, saveChainId, saveAccountAddress, saveWeb3, saveInstance } from '../../app/actions/web3';
-import { getRegisteredVoterEvents, setIsUnRegistered, getRegisteredProposalEvents, getCurrentVotePhase } from '../../app/actions/voting';
+import { getRegisteredVoterEvents, setIsUnRegistered, getRegisteredProposalEvents, getCurrentVotePhase, getAllEvents } from '../../app/actions/voting';
 import { setIsAdmin, setIsVoter } from '../../app/actions/voting';
 import Link from 'next/link';
 import Web3 from 'web3';
@@ -72,6 +72,7 @@ const Header = () => {
     const instance = new web3.eth.Contract(Voting.abi, Voting.networks[3].address);
     dispatch(saveWeb3(web3));
     dispatch(saveInstance(instance));
+    dispatch(getAllEvents());
     dispatch(getRegisteredVoterEvents());
     dispatch(getRegisteredProposalEvents());
     dispatch(getCurrentVotePhase());

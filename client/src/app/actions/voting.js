@@ -27,6 +27,19 @@ export const getRegisteredVoterEvents = createAsyncThunk('voting/getRegisteredVo
   return registeredVotersEvents;
 });
 
+export const getAllEvents = createAsyncThunk('voting/getAllEvents', async () => {
+  const web3 = new Web3(window.ethereum);
+  const instance = new web3.eth.Contract(Voting.abi, Voting.networks[3].address);
+  const workflowStatusChangeEvents = await instance.getPastEvents('WorkflowStatusChange', { fromBlock: 12549297, toBlock: 'latest'});
+  const registeredVotersEvents = await instance.getPastEvents('VoterRegistered', { fromBlock: 12549297, toBlock: 'latest'});
+  const registeredProposalEvents = await instance.getPastEvents('ProposalRegistered', { fromBlock: 12549297, toBlock: 'latest'});
+  const registeredvoteEvents = await instance.getPastEvents('Voted', { fromBlock: 12549297, toBlock: 'latest'});
+  const winnerSetEvent = await instance.getPastEvents('WinnerSet', { fromBlock: 12549297, toBlock: 'latest'});
+
+  return [...workflowStatusChangeEvents, ...registeredVotersEvents, ...registeredProposalEvents, ...registeredvoteEvents, ...winnerSetEvent];
+});
+export const formateEvents = createAction('voting/formateEvents');
+
 export const startProposalRegistration = createAction('voting/startProposalRegistration');
 export const endProposalRegistration = createAction('voting/endProposalRegistration');
 export const startVoteRegistration = createAction('voting/startVoteRegistration');
