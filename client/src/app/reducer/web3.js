@@ -31,9 +31,10 @@ export const web3Reducer = createReducer(initialState, (builder) => {
   .addCase(connectMetamask.pending, (state) => {
     state.pending = true;
   })
-  .addCase(connectMetamask.fulfilled, (state) => {
+  .addCase(connectMetamask.fulfilled, (state, action) => {
     state.pending = false;
     state.metamask.isConnected = true;
+    state.address = action.payload;
   })
   .addCase(connectMetamask.rejected, (state) => {
     state.pending = false;

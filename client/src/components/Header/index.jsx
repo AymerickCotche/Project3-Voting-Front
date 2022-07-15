@@ -68,7 +68,6 @@ const Header = () => {
     dispatch(checkMetamaskInit());
     dispatch(connectMetamask());
     dispatch(saveChainId(window.ethereum.chainId));
-    dispatch(saveAccountAddress());
     const web3 = new Web3(window.ethereum);
     const instance = new web3.eth.Contract(Voting.abi, Voting.networks[3].address);
     dispatch(saveWeb3(web3));

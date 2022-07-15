@@ -29,6 +29,8 @@ export const getRegisteredVoterEvents = createAsyncThunk('voting/getRegisteredVo
 
 export const startProposalRegistration = createAction('voting/startProposalRegistration');
 export const endProposalRegistration = createAction('voting/endProposalRegistration');
+export const startVoteRegistration = createAction('voting/startVoteRegistration');
+export const endVoteRegistration = createAction('voting/endVoteRegistration');
 
 export const setAddProposalInput = createAction('voting/setAddProposalInput');
 export const addRegisteredProposalEvents = createAction('voting/addRegisteredProposalEvents');

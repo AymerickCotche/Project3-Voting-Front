@@ -14,7 +14,9 @@ import {
   startProposalRegistration,
   endProposalRegistration,
   getCurrentVotePhase,
-  getProposal
+  getProposal,
+  startVoteRegistration,
+  endVoteRegistration
 } from '../actions/voting';
 
 const initialState = {
@@ -39,7 +41,7 @@ const initialState = {
       name: 'Vote result',
     }
   ],
-  currentVotePhase: "0",
+  currentVotePhase: "",
   currentDisplay : "0",
   addVoterInput: '',
   registeredVoterEvents: [],
@@ -109,6 +111,12 @@ export const votingReducer = createReducer(initialState, (builder) => {
   })
   .addCase(endProposalRegistration, (state) => {
     state.currentVotePhase = "2";
+  })
+  .addCase(startVoteRegistration, (state) => {
+    state.currentVotePhase = "3";
+  })
+  .addCase(endVoteRegistration, (state) => {
+    state.currentVotePhase = "4";
   })
   .addCase(getProposal, (state, action) => {
     state.proposals = [];
