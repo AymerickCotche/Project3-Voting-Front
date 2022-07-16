@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { getProposal, startVoteRegistration, endVoteRegistration } from '../../../app/actions/voting';
@@ -17,17 +18,20 @@ const VotesRegistration = () => {
   const registeredProposalEvents = useSelector((state) => state.voting.registeredProposalEvents);
   const proposals = useSelector((state) => state.voting.proposals);
 
-  if(isVoter) {
-    const getProposals = async () => {
-    let tempProposals = [];
-    for(const element of registeredProposalEvents) {
-      let proposal = await instance.methods.getOneProposal(element.returnValues.proposalId).call({from: address});
-      tempProposals.push(proposal);
+  useEffect(() => {
+      if(isVoter) {
+      const getProposals = async () => {
+      let tempProposals = [];
+      for(const element of registeredProposalEvents) {
+        let proposal = await instance.methods.getOneProposal(element.returnValues.proposalId).call({from: address});
+        tempProposals.push(proposal);
+      }
+      dispatch(getProposal(tempProposals));
     }
-    dispatch(getProposal(tempProposals));
-  }
-  getProposals();
-  }
+    getProposals();
+    }
+  }, [])
+  
 
   const handleClickStartVoteRegistration = async () => {
     await instance.methods.startVotingSession().send({from: address});

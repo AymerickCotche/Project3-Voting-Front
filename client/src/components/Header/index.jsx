@@ -51,7 +51,6 @@ const Header = () => {
       const findVoter = registeredVoterEvents.find((registeredVoterEvent) => (
         registeredVoterEvent.returnValues.voterAddress.toLocaleLowerCase() === userAddress
       ))
-      console.log(findVoter);
       if (findVoter) {
 
         dispatch(setIsVoter(true))
@@ -72,10 +71,10 @@ const Header = () => {
     const instance = new web3.eth.Contract(Voting.abi, Voting.networks[3].address);
     dispatch(saveWeb3(web3));
     dispatch(saveInstance(instance));
-    dispatch(getAllEvents());
     dispatch(getRegisteredVoterEvents());
     dispatch(getRegisteredProposalEvents());
     dispatch(getCurrentVotePhase());
+    dispatch(getAllEvents());
   };
 
   return (

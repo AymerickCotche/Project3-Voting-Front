@@ -38,6 +38,7 @@ export const getAllEvents = createAsyncThunk('voting/getAllEvents', async () => 
 
   return [...workflowStatusChangeEvents, ...registeredVotersEvents, ...registeredProposalEvents, ...registeredvoteEvents, ...winnerSetEvent];
 });
+export const addOneEvent = createAction('voting/addOneEvent');
 export const formateEvents = createAction('voting/formateEvents');
 
 export const startProposalRegistration = createAction('voting/startProposalRegistration');
@@ -54,4 +55,6 @@ export const getRegisteredProposalEvents = createAsyncThunk('voting/getRegistere
   return registeredProposalEvents;
 });
 
+export const setEventsLoading = createAction('voting/setEventsLoading');
 export const getProposal = createAction('voting/getProposal');
+export const setWinner = createAction('voting/setWinner');

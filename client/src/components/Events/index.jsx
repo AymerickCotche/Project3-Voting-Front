@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { formateEvents } from '../../app/actions/voting';
+import { formateEvents, setEventsLoading } from '../../app/actions/voting';
 import styles from './Events.module.scss';
 
 
@@ -24,8 +24,9 @@ const Events = () => {
   
   useEffect(() => {
     if (isVoter) {
-      
+     
       const executeFormateEvents = async () => {
+        dispatch(setEventsLoading(true));
         for(const scEvent of allEvents) {
           const {timestamp} = await web3.eth.getBlock(scEvent.blockNumber);
           switch (scEvent.event) {
@@ -82,16 +83,24 @@ const Events = () => {
                 infos: [`Voter: ${scEvent.returnValues.voter}`, `Proposal Voted: ${proposalVoted[0]}`]
               }))
               break;
+            case 'WinnerSet':
+              const proposalWon = await instance.methods.getOneProposal(scEvent.returnValues.winnerId).call({from: address});
+              dispatch(formateEvents({
+                timestamp,
+                infos: [`Winner is: ${proposalWon[0]}`, `Vote Count: ${proposalWon[1]}`]
+              }))
+              break;
           
             default:
               break;
           }
         }
+        dispatch(setEventsLoading(false));
       }
     executeFormateEvents();
     }
     
-  }, [allEvents])
+  }, [isVoter])
 
   const getDate = (timestamp) => {
     let date = new Date(timestamp * 1000);
@@ -116,6 +125,7 @@ const Events = () => {
     
     <div className={styles.events}>
       <h2>Lastest events</h2>
+      
       {eventIsLoading && 
         <p>Loading events</p>
       }
