@@ -41,7 +41,7 @@ export const getAllEvents = createAsyncThunk('voting/getAllEvents', async () => 
 export const addOneEvent = createAction('voting/addOneEvent');
 export const formateEvents = createAction('voting/formateEvents');
 
-export const startProposalRegistration = createAction('voting/startProposalRegistration');
+export const startProposalsRegistration = createAction('voting/startProposalRegistration');
 export const endProposalRegistration = createAction('voting/endProposalRegistration');
 export const startVoteRegistration = createAction('voting/startVoteRegistration');
 export const endVoteRegistration = createAction('voting/endVoteRegistration');

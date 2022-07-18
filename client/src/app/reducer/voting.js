@@ -13,7 +13,7 @@ import {
   addOneEvent,
   getRegisteredProposalEvents,
   addRegisteredProposalEvents,
-  startProposalRegistration,
+  startProposalsRegistration,
   endProposalRegistration,
   getCurrentVotePhase,
   getProposal,
@@ -128,7 +128,7 @@ export const votingReducer = createReducer(initialState, (builder) => {
   .addCase(getCurrentVotePhase.pending, (state) => {
     console.log('pending');
   })
-  .addCase(startProposalRegistration, (state) => {
+  .addCase(startProposalsRegistration, (state) => {
     state.currentVotePhase = "1";
   })
   .addCase(endProposalRegistration, (state) => {
