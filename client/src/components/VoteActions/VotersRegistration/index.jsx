@@ -58,7 +58,7 @@ const VotersRegistration = () => {
 
       }
       {!isAdmin &&
-       <div>
+       <div className={styles.votersRegistration__onlyAdmin}>
         <p>Only administrator can access to this action.</p>
         <p>Please connect with admin account, or wait untill administrator start the next voting step.</p>
        </div>

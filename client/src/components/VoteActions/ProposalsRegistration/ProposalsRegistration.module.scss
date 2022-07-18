@@ -1,6 +1,24 @@
 @use '../../../styles/vars';
 
 .proposalsRegistration {
+  &__title, h2{
+    font-size: 1.3em;
+  }
+  &__content {
+    margin-left: 1.2em;
+  }
+  &__addForm {
+    margin-left: 1em;
+  }
+  &__list {
+    margin-left: 1em;
+    &__item {
+      margin-bottom: 1em;
+    }
+  }
+  &__endBtn {
+    margin-left: 1.4em;
+  }
 
   
 

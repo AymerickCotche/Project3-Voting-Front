@@ -81,25 +81,6 @@ const Header = () => {
     <header className={styles.header}>
       <div className={styles.header__infos}>
         <h1 className={styles.header__infos__title}>VOTING</h1>
-        <nav className={styles.header__infos__nav}>
-          <ul className={styles.header__infos__navlist}>
-            <li className={styles.header__infos__nav__item}>
-              <Link href="/">
-                <a>Accueil</a>
-              </Link>
-            </li>
-            <li className={styles.header__infos__nav__item}>
-              <Link href="/event">
-                <a>Evenement</a>
-              </Link>
-            </li>
-            <li className={styles.header__infos__nav__item}>
-              <Link href="/admin">
-                <a>Admin</a>
-              </Link>
-            </li>                                                          
-          </ul>
-        </nav>
       </div>
       <div>
         {mmInstalled && !mmConnected &&

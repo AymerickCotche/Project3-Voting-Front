@@ -1,5 +1,23 @@
 @use '../../../styles/vars';
 
 .voteResult {
-  
+  &__title,h2 {
+    font-size: 1.3em;
+  }
+  &__content {
+    margin-left: 1.2em;
+
+    &__winner {
+      &__area {
+        margin-left: 1em;
+        &__desc {
+          font-size: 6em;
+        }
+        &__votecount {
+          font-size: 2em;
+          margin-left: 0.2em;
+        }
+      }
+    }
+  }
 }

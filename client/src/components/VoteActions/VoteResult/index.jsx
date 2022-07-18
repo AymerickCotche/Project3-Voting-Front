@@ -14,6 +14,7 @@ const VoteResult = () => {
 
   const isAdmin = useSelector((state) => state.voting.isAdmin);
   const isVoter = useSelector((state) => state.voting.isVoter);
+  const accountType= useSelector((state) => state.voting.accountType);
   const allEvents = useSelector((state) => state.voting.allEvents);
   const winner = useSelector((state) => state.voting.winner);
 
@@ -44,24 +45,29 @@ const VoteResult = () => {
 
   return (
     <div className={styles.voteResult}>
-      <div>
-        <h2>Vote Result</h2>
+      
+      <h2 className={styles.voteResult__title}>Vote Result</h2>
 
+      <div className={styles.voteResult__content}>
         {isAdmin && 
           <button onClick={handleClickStartVoteRegistration}>Get winner</button>
         }
         {isVoter &&
-        <div>
-          <h3>Winner is :</h3>
-          <p>{winner.desc}</p>
-          <p>{winner.voteCount} votes</p>   
-        </div>
+          <div className={styles.voteResult__content__winner}>
+            <h3 className={styles.voteResult__content__winner__title}>Proposal with more vote is :</h3>
+            <div className={styles.voteResult__content__winner__area} >
+              <p className={styles.voteResult__content__winner__area__desc}>{winner.desc}</p>
+              <p className={styles.voteResult__content__winner__area__votecount}>{winner.voteCount} votes</p>   
+            </div>
+          </div>
           
         }
-        
-      </div>
-
-      
+        {accountType === 'Not registered' && 
+          <p>Only administrator or voter can access to this page.
+            Please connect with an administrator or a voter account
+          </p>
+        }
+      </div>      
     </div>
   )
 }

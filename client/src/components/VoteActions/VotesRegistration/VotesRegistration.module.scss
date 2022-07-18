@@ -1,7 +1,23 @@
 @use '../../../styles/vars';
 
 .votesRegistration {
-
+  &__title, h2{
+    font-size: 1.3em;
+  }
+  &__content {
+    margin-left: 1.2em;
+  }
+  &__list {
+    display: flex;
+    margin-left: 1em;
+    flex-wrap: wrap;
+    &__item {
+      margin-left: 1em;
+    }
+  }
+  &__endBtn {
+    margin-left: 1.4em;
+  }
  
 
 }

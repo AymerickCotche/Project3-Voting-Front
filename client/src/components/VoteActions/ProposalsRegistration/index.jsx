@@ -12,6 +12,7 @@ const ProposalsRegistration = () => {
 
   const isAdmin = useSelector((state) => state.voting.isAdmin);
   const isVoter = useSelector((state) => state.voting.isVoter);
+  const accountType= useSelector((state) => state.voting.accountType);
   const proposalInputValue = useSelector((state) => state.voting.addProposalInput);
   const registeredProposalEvents = useSelector((state) => state.voting.registeredProposalEvents);
   const proposals = useSelector((state) => state.voting.proposals);
@@ -55,7 +56,7 @@ const ProposalsRegistration = () => {
   }
 
   const ejsProposalsList = proposals.map((proposal, index) => (
-    <li key={index}>
+    <li key={index} className={styles.proposalsRegistration__list__item}>
       {index + 1}. {proposal[0]}
     </li>
   ))
@@ -64,39 +65,44 @@ const ProposalsRegistration = () => {
     <div className={styles.proposalsRegistration}>
       
       <div>
-        <h2>Proposals Registration</h2>
+        <h2 className={styles.proposalsRegistration__title}>Proposals Registration</h2>
+        <div className={styles.proposalsRegistration__content}>
+          {isAdmin && 
+            <button onClick={handleClickStartProposalRegistration}>Start proposals registration</button>
+          }
+          {isVoter &&
+            <div>
+              <h3>Add proposal to the list</h3>
+
+              <div className={styles.proposalsRegistration__addForm}>
+                <input
+                  type="text"
+                  placeholder="description"
+                  onChange={handleChangeAddProposal}
+                  value={proposalInputValue}
+                />
+                <button onClick={handleClickAddProposal}>add proposal</button>
+              </div>
+              <div>
+                <h3>Proposal list :</h3>
+                <ol className={styles.proposalsRegistration__list}>
+                  {ejsProposalsList}
+                </ol>
+              </div>
+            </div>
+          }
+          {accountType === 'Not registered' && 
+            <p>Only administrator or voter can access to this page.
+              Please connect with an administrator or a voter account
+            </p>
+          }
+        </div>
 
         {isAdmin && 
-          <button onClick={handleClickStartProposalRegistration}>Start proposals registration</button>
+          <button className={styles.proposalsRegistration__endBtn} onClick={handleClickEndProposalRegistration}>End proposals registration</button>
         }
-        {isVoter &&
-        <div>
-          <h3>Add proposal to the list</h3>
-
-          <div className={styles.votersRegistration__addForm}>
-            <input
-              type="text"
-              placeholder="add proposal to the list"
-              onChange={handleChangeAddProposal}
-              value={proposalInputValue}
-            />
-            <button onClick={handleClickAddProposal}>add proposal</button>
-          </div>
-          <div>
-            <h3>Proposal list :</h3>
-            <ol>
-              {ejsProposalsList}
-            </ol>
-          </div>
-        </div>
-          
-        }
-        
       </div>
-
-      {isAdmin && 
-          <button onClick={handleClickEndProposalRegistration}>End proposals registration</button>
-      }
+        
       
     </div>
   )

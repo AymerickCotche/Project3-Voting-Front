@@ -14,7 +14,7 @@ const VotesRegistration = () => {
 
   const isAdmin = useSelector((state) => state.voting.isAdmin);
   const isVoter = useSelector((state) => state.voting.isVoter);
-  const proposalInputValue = useSelector((state) => state.voting.addProposalInput);
+  const accountType= useSelector((state) => state.voting.accountType);
   const registeredProposalEvents = useSelector((state) => state.voting.registeredProposalEvents);
   const proposals = useSelector((state) => state.voting.proposals);
 
@@ -48,37 +48,39 @@ const VotesRegistration = () => {
   }
 
   const ejsProposalsList = proposals.map((proposal, index) => (
-    <li key={index}>
+    <li key={index} className={styles.votesRegistration__list__item}>
       {index + 1}. {proposal[0]} - <button onClick={() => handleClickVote(index)}>Vote</button>
     </li>
   ))
   return (
     <div className={styles.votesRegistration}>
       <div>
-        <h2>Vote Registration</h2>
+        <h2 className={styles.votesRegistration__title}>Vote Registration</h2>
+        <div className={styles.votesRegistration__content}>
+          {isAdmin && 
+            <button onClick={handleClickStartVoteRegistration}>Start vote registration</button>
+          }
+          {isVoter &&
+            <div>
+              <h3>Proposals list :</h3>
+              <ol className={styles.votesRegistration__list}>
+                {ejsProposalsList}
+              </ol>
+            </div>
+          }
+          {accountType === 'Not registered' && 
+            <p>Only administrator or voter can access to this page.
+              Please connect with an administrator or a voter account
+            </p>
+          }
+        </div>
 
         {isAdmin && 
-          <button onClick={handleClickStartVoteRegistration}>Start vote registration</button>
-        }
-        {isVoter &&
-        <div>
-          <h3>Vote for a proposal</h3>
-
-          <div>
-            <h3>Proposals list :</h3>
-            <ol>
-              {ejsProposalsList}
-            </ol>
-          </div>
-        </div>
-          
+          <button className={styles.votesRegistration__endBtn} onClick={handleClickEndVoteRegistration}>End vote registration</button>
         }
         
       </div>
-
-      {isAdmin && 
-          <button onClick={handleClickEndVoteRegistration}>End vote registration</button>
-      }
+        
     </div>
   )
 }
