@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { cleanEvents, formateEvents, setEventsLoading } from '../../app/actions/voting';
+import { cleanDisplayedEvents, formateEvents, setEventsLoading, toggleStartFormateEvents } from '../../app/actions/voting';
 import styles from './Events.module.scss';
 
 
@@ -16,7 +16,9 @@ const Events = () => {
   const address = useSelector((state) => state.web3.address);
   const allEvents = useSelector((state) => state.voting.allEvents);
   const displayedEvents = useSelector((state) => state.voting.displayedEvents);
+  const startFormateEvents = useSelector((state) => state.voting.startFormateEvents);
   const isVoter = useSelector((state) => state.voting.isVoter);
+  const isAdmin = useSelector((state) => state.voting.isAdmin);
   const eventIsLoading = useSelector((state) => state.voting.eventIsLoading);
   const currentDisplay = useSelector((state) => state.voting.currentDisplay);
 
@@ -24,9 +26,8 @@ const Events = () => {
   const sortedEvents = _.orderBy(displayedEvents, ['timestamp'],['desc']) 
   
   useEffect(() => {
-    if (isVoter) {
-      dispatch(cleanEvents());
       const executeFormateEvents = async () => {
+        dispatch(cleanDisplayedEvents());
         for(const scEvent of allEvents) {
           const {timestamp} = await web3.eth.getBlock(scEvent.blockNumber);
           switch (scEvent.event) {
@@ -95,11 +96,13 @@ const Events = () => {
               break;
           }
         }
+        dispatch(toggleStartFormateEvents(false));
+
       }
-    executeFormateEvents();
-    }
+      if (startFormateEvents) executeFormateEvents();
     
-  }, [currentDisplay, address])
+    
+  }, [startFormateEvents])
 
   const getDate = (timestamp) => {
     let date = new Date(timestamp * 1000);
@@ -125,15 +128,10 @@ const Events = () => {
     <div className={styles.events}>
       <h2>Lastest events</h2>
       
-      {eventIsLoading && 
-        <p>Loading events</p>
-      }
-      {!eventIsLoading &&
-      <div>
-        {ejsdisplayedEvents}
-      </div>
-        
-      }
+      { eventIsLoading ?  <p> Loading events</p> : ejsdisplayedEvents}
+       
+      
+      
     </div>
   )
 }

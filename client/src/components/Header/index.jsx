@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { connectMetamask, checkMetamaskInstall, checkMetamaskInit, saveChainId, saveAccountAddress, saveWeb3, saveInstance } from '../../app/actions/web3';
-import { getRegisteredVoterEvents, setIsUnRegistered, getRegisteredProposalEvents, getCurrentVotePhase, getAllEvents } from '../../app/actions/voting';
+import { getRegisteredVoterEvents, setIsUnRegistered, getRegisteredProposalEvents, getCurrentVotePhase, getAllEvents, cleanAllEvents, cleanDisplayedEvents, toggleStartFormateEvents } from '../../app/actions/voting';
 import { setIsAdmin, setIsVoter } from '../../app/actions/voting';
 import Link from 'next/link';
 import Web3 from 'web3';
@@ -43,17 +43,19 @@ const Header = () => {
 
   useEffect(() => {
     if(userAddress === process.env.ownerAddress.toLocaleLowerCase()) {
-      
       dispatch(setIsAdmin(true));
       dispatch(setIsVoter(false));
+      dispatch(cleanAllEvents());
+      dispatch(cleanDisplayedEvents());
+
     } else {
       if (isAdmin) dispatch(setIsAdmin(false));
       const findVoter = registeredVoterEvents.find((registeredVoterEvent) => (
         registeredVoterEvent.returnValues.voterAddress.toLocaleLowerCase() === userAddress
       ))
       if (findVoter) {
-
-        dispatch(setIsVoter(true))
+        dispatch(setIsVoter(true));
+        dispatch(getAllEvents());
       } else {
         if (isAdmin) dispatch(setIsAdmin(false));
         if (isVoter) dispatch(setIsVoter(false));
@@ -74,8 +76,7 @@ const Header = () => {
     dispatch(getRegisteredVoterEvents());
     dispatch(getRegisteredProposalEvents());
     dispatch(getCurrentVotePhase());
-    dispatch(getAllEvents());
-  };
+};
 
   return (
     <header className={styles.header}>

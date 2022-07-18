@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProposal, setAddProposalInput, startProposalsRegistration, endProposalRegistration } from '../../../app/actions/voting';
+import { getProposal, setAddProposalInput, addRegisteredProposalEvents, startProposalsRegistration, endProposalRegistration } from '../../../app/actions/voting';
 import styles from './ProposalsRegistration.module.scss';
 
 const ProposalsRegistration = () => {
@@ -19,7 +19,6 @@ const ProposalsRegistration = () => {
 
 
   useEffect(() => {
-    if(isVoter) {
       const getProposals = async () => {
       let tempProposals = [];
       for(const element of registeredProposalEvents) {
@@ -28,19 +27,22 @@ const ProposalsRegistration = () => {
       }
       dispatch(getProposal(tempProposals));
     }
-    getProposals();
+    if(isVoter) {
+      getProposals();
     }
     
-  }, [])
+    
+  }, [registeredProposalEvents])
 
   const handleChangeAddProposal = (e) => {
     dispatch(setAddProposalInput(e.target.value));
   }
 
   const handleClickAddProposal = async () => {
-    dispatch(setAddProposalInput(''));
+    
     await instance.methods.addProposal(proposalInputValue).send({from: address})
     .on('receipt', (receipt) => {
+      dispatch(setAddProposalInput(''));
       dispatch(addRegisteredProposalEvents(receipt.events.ProposalRegistered));
     });
     

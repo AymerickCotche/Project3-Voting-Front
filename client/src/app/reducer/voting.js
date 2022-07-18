@@ -22,7 +22,9 @@ import {
   formateEvents,
   setWinner,
   setEventsLoading,
-  cleanEvents,
+  cleanAllEvents,
+  cleanDisplayedEvents,
+  toggleStartFormateEvents,
 } from '../actions/voting';
 
 const initialState = {
@@ -58,6 +60,7 @@ const initialState = {
   registeredProposalEvents: [],
   proposals: [],
   winner: {},
+  startFormateEvents: false
 };
 
 export const votingReducer = createReducer(initialState, (builder) => {
@@ -88,6 +91,7 @@ export const votingReducer = createReducer(initialState, (builder) => {
   .addCase(getAllEvents.fulfilled, (state, action) => {
     state.allEvents = [];
     state.allEvents = action.payload;
+    state.startFormateEvents = true;
   })
   .addCase(getAllEvents.rejected, (state) => {
     console.log('error');
@@ -147,7 +151,10 @@ export const votingReducer = createReducer(initialState, (builder) => {
   .addCase(formateEvents, (state, action) => {
     state.displayedEvents = [...state.displayedEvents, action.payload];
   })
-  .addCase(cleanEvents, (state) => {
+  .addCase(cleanAllEvents, (state) => {
+    state.allEvents = [];
+  })
+  .addCase(cleanDisplayedEvents, (state) => {
     state.displayedEvents = [];
   })
   .addCase(setWinner, (state, action) => {
@@ -155,6 +162,9 @@ export const votingReducer = createReducer(initialState, (builder) => {
   })
   .addCase(setEventsLoading, (state, action) => {
     state.eventLoading = action.payload;
+  })
+  .addCase(toggleStartFormateEvents, (state, action) => {
+    state.startFormateEvents = action.payload;
   });
 });
 
