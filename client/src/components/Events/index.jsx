@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { formateEvents, setEventsLoading } from '../../app/actions/voting';
+import { cleanEvents, formateEvents, setEventsLoading } from '../../app/actions/voting';
 import styles from './Events.module.scss';
 
 
@@ -18,15 +18,15 @@ const Events = () => {
   const displayedEvents = useSelector((state) => state.voting.displayedEvents);
   const isVoter = useSelector((state) => state.voting.isVoter);
   const eventIsLoading = useSelector((state) => state.voting.eventIsLoading);
+  const currentDisplay = useSelector((state) => state.voting.currentDisplay);
 
   
   const sortedEvents = _.orderBy(displayedEvents, ['timestamp'],['desc']) 
   
   useEffect(() => {
     if (isVoter) {
-     
+      dispatch(cleanEvents());
       const executeFormateEvents = async () => {
-        dispatch(setEventsLoading(true));
         for(const scEvent of allEvents) {
           const {timestamp} = await web3.eth.getBlock(scEvent.blockNumber);
           switch (scEvent.event) {
@@ -95,12 +95,11 @@ const Events = () => {
               break;
           }
         }
-        dispatch(setEventsLoading(false));
       }
     executeFormateEvents();
     }
     
-  }, [isVoter])
+  }, [currentDisplay])
 
   const getDate = (timestamp) => {
     let date = new Date(timestamp * 1000);

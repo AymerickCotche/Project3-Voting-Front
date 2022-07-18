@@ -58,3 +58,4 @@ export const getRegisteredProposalEvents = createAsyncThunk('voting/getRegistere
 export const setEventsLoading = createAction('voting/setEventsLoading');
 export const getProposal = createAction('voting/getProposal');
 export const setWinner = createAction('voting/setWinner');
+export const cleanEvents = createAction('voting/cleanEvents');

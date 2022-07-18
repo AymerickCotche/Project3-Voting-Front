@@ -22,6 +22,7 @@ import {
   formateEvents,
   setWinner,
   setEventsLoading,
+  cleanEvents,
 } from '../actions/voting';
 
 const initialState = {
@@ -146,9 +147,13 @@ export const votingReducer = createReducer(initialState, (builder) => {
   .addCase(formateEvents, (state, action) => {
     state.displayedEvents = [...state.displayedEvents, action.payload];
   })
+  .addCase(cleanEvents, (state) => {
+    state.displayedEvents = [];
+  })
   .addCase(setWinner, (state, action) => {
     state.winner = action.payload;
-  }).addCase(setEventsLoading, (state, action) => {
+  })
+  .addCase(setEventsLoading, (state, action) => {
     state.eventLoading = action.payload;
   });
 });
