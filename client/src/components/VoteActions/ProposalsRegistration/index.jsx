@@ -38,11 +38,12 @@ const ProposalsRegistration = () => {
   }
 
   const handleClickAddProposal = async () => {
+    dispatch(setAddProposalInput(''));
     await instance.methods.addProposal(proposalInputValue).send({from: address})
     .on('receipt', (receipt) => {
       dispatch(addRegisteredProposalEvents(receipt.events.ProposalRegistered));
     });
-    dispatch(setAddProposalInput(''));
+    
   }
 
   const handleClickStartProposalRegistration = async () => {
