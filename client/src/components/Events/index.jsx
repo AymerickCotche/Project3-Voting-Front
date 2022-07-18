@@ -99,7 +99,7 @@ const Events = () => {
     executeFormateEvents();
     }
     
-  }, [currentDisplay])
+  }, [currentDisplay, address])
 
   const getDate = (timestamp) => {
     let date = new Date(timestamp * 1000);
