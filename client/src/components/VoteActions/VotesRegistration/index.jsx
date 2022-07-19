@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getProposal, startVoteRegistration, endVoteRegistration } from '../../../app/actions/voting';
+import { getProposal, startVoteRegistration, endVoteRegistration, votedFor } from '../../../app/actions/voting';
 
 import styles from './VotesRegistration.module.scss';
 
@@ -17,6 +17,7 @@ const VotesRegistration = () => {
   const accountType= useSelector((state) => state.voting.accountType);
   const registeredProposalEvents = useSelector((state) => state.voting.registeredProposalEvents);
   const proposals = useSelector((state) => state.voting.proposals);
+  const selectedProposal = useSelector((state) => state.voting.selectedProposal);
 
   useEffect(() => {
       if(isVoter) {
@@ -31,6 +32,7 @@ const VotesRegistration = () => {
     getProposals();
     }
   }, [])
+
   
 
   const handleClickStartVoteRegistration = async () => {
@@ -44,7 +46,12 @@ const VotesRegistration = () => {
   }
 
   const handleClickVote = async (id) => {
-    await instance.methods.setVote(id).send({from:address});
+    await instance.methods.setVote(id).send({from:address})
+    .on('receipt', async (receipt) => {
+      console.log(receipt);
+      const data = await instance.methods.getOneProposal(receipt.events.Voted.returnValues.proposalId).call({from: address})
+      dispatch(votedFor(data[0]));
+    });
   }
 
   const ejsProposalsList = proposals.map((proposal, index) => (
@@ -66,6 +73,12 @@ const VotesRegistration = () => {
               <ol className={styles.votesRegistration__list}>
                 {ejsProposalsList}
               </ol>
+              {selectedProposal !== '' &&
+                <div>
+                  <h3>You have voted for :</h3>
+                  <p>{selectedProposal}</p>
+                </div>
+              }
             </div>
           }
           {accountType === 'Not registered' && 

@@ -1,10 +1,9 @@
 import _ from 'lodash';
+import { v4 as uuidv4 } from 'uuid';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { cleanDisplayedEvents, formateEvents, setEventsLoading, toggleStartFormateEvents } from '../../app/actions/voting';
+import { cleanDisplayedEvents, formateEvents, setEventsLoading, toggleStartFormateEvents, votedFor } from '../../app/actions/voting';
 import styles from './Events.module.scss';
-
-
 
 
 const Events = () => {
@@ -44,19 +43,19 @@ const Events = () => {
                   infos: [`Previous Status: Proposals Registration Started`, `New Status: Proposals Registration Ended`]
                 }))
               }
-              if(scEvent.returnValues.previousStatus === '1') {
+              if(scEvent.returnValues.previousStatus === '2') {
                 dispatch(formateEvents({
                   timestamp,
                   infos: [`Previous Status: Proposals Registration Ended`, `New Status: Voting Session Started`]
                 }))
               }
-              if(scEvent.returnValues.previousStatus === '1') {
+              if(scEvent.returnValues.previousStatus === '3') {
                 dispatch(formateEvents({
                   timestamp,
                   infos: [`Previous Status: Voting Session Started`, `New Status: Voting Session Endedd`]
                 }))
               }
-              if(scEvent.returnValues.previousStatus === '1') {
+              if(scEvent.returnValues.previousStatus === '4') {
                 dispatch(formateEvents({
                   timestamp,
                   infos: [`Previous Status: Voting Session Endedd`, `New Status: Votes Tallied`]
@@ -79,6 +78,7 @@ const Events = () => {
               break;
             case 'Voted':
               const proposalVoted = await instance.methods.getOneProposal(scEvent.returnValues.proposalId).call({from: address});
+              if(address === scEvent.returnValues.voter.toLowerCase()) dispatch(votedFor(proposalVoted[0]));
               dispatch(formateEvents({
                 timestamp,
                 infos: [`Voter: ${scEvent.returnValues.voter}`, `Proposal Voted: ${proposalVoted[0]}`]
@@ -114,11 +114,11 @@ const Events = () => {
     ":"+date.getSeconds();
   }
   const ejsdisplayedEvents = sortedEvents.map((displayedEvent) => (
-    <div className={styles.events__event}>
+    <div className={styles.events__event} key={uuidv4()}>
       <p className={styles.events__event__time}>{getDate(displayedEvent.timestamp)}</p>
       <ul className={styles.events__event__infos}>
         {displayedEvent.infos.map((info) => (
-          <li>{info}</li>
+          <li key={uuidv4()}>{info}</li>
         ))}
       </ul>
     </div>

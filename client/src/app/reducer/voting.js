@@ -25,6 +25,7 @@ import {
   cleanAllEvents,
   cleanDisplayedEvents,
   toggleStartFormateEvents,
+  votedFor,
 } from '../actions/voting';
 
 const initialState = {
@@ -59,6 +60,7 @@ const initialState = {
   addProposalInput: '',
   registeredProposalEvents: [],
   proposals: [],
+  selectedProposal: "",
   winner: {},
   startFormateEvents: false
 };
@@ -165,6 +167,9 @@ export const votingReducer = createReducer(initialState, (builder) => {
   })
   .addCase(toggleStartFormateEvents, (state, action) => {
     state.startFormateEvents = action.payload;
+  })
+  .addCase(votedFor, (state, action) => {
+    state.selectedProposal = action.payload;
   });
 });
 

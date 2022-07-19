@@ -35,7 +35,7 @@ const VoteResult = () => {
       }
       getWinner();
     }
-  }, [])
+  }, [address])
   const handleClickStartVoteRegistration = async () => {
     await instance.methods.tallyVotes().send({from: address})
     .on('receipt', (receipt) => {

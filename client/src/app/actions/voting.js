@@ -54,11 +54,13 @@ export const getRegisteredProposalEvents = createAsyncThunk('voting/getRegistere
   const registeredProposalEvents = await instance.getPastEvents('ProposalRegistered', { fromBlock: 12549297, toBlock: 'latest'});
   return registeredProposalEvents;
 });
+export const getProposal = createAction('voting/getProposal');
 
 export const setEventsLoading = createAction('voting/setEventsLoading');
-export const getProposal = createAction('voting/getProposal');
-export const setWinner = createAction('voting/setWinner');
 export const cleanAllEvents = createAction('voting/cleanAllEvents');
 export const cleanDisplayedEvents = createAction('voting/cleanDisplayedEvents');
-
 export const toggleStartFormateEvents = createAction('voting/toggleStartFormateEvents');
+
+export const setWinner = createAction('voting/setWinner');
+
+export const votedFor = createAction('voting/votedFor');

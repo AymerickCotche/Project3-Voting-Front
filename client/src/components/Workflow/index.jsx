@@ -28,11 +28,11 @@ const Workflow = () => {
         ? `${styles.workflow__list__item__active}`
         : ``} `}>
         <p>{workflow.name}</p>
-        <p>
+        <p className={styles.workflow__emoji}>
           {
             workflow.id === currentVotePhase
-            ? 'Open'
-            : 'Close'
+            ? '✔️'
+            : '❌'
           }
         </p>
     </li>
